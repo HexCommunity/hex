@@ -1,0 +1,27 @@
+{
+  "name": "@hexcommunity/hex",
+  "version": "1.0.0",
+  "description": "a repo for all things hex solidity / truffle development",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "bn.js": "^5.1.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HexCommunity/hex.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HexCommunity/hex/issues"
+  },
+  "homepage": "https://github.com/HexCommunity/hex#readme"
+}
