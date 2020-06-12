@@ -136,6 +136,95 @@ contract HEXData {
     uint8 public constant CLAIM_FLAG_BTC_ADDR_P2WPKH_IN_P2SH = 1 << 2;
     uint8 public constant CLAIM_FLAG_BTC_ADDR_BECH32 = 1 << 3;
     uint8 public constant CLAIM_FLAG_ETH_ADDR_LOWERCASE = 1 << 4;
+    
+    /* Globals expanded for memory (except _latestStakeId) and compact for storage */
+    struct GlobalsCache {
+        // 1
+        uint256 _lockedHeartsTotal;
+        uint256 _nextStakeSharesTotal;
+        uint256 _shareRate;
+        uint256 _stakePenaltyTotal;
+        // 2
+        uint256 _dailyDataCount;
+        uint256 _stakeSharesTotal;
+        uint40 _latestStakeId;
+        uint256 _unclaimedSatoshisTotal;
+        uint256 _claimedSatoshisTotal;
+        uint256 _claimedBtcAddrCount;
+        //
+        uint256 _currentDay;
+    }
+
+    struct GlobalsStore {
+        // 1
+        uint72 lockedHeartsTotal;
+        uint72 nextStakeSharesTotal;
+        uint40 shareRate;
+        uint72 stakePenaltyTotal;
+        // 2
+        uint16 dailyDataCount;
+        uint72 stakeSharesTotal;
+        uint40 latestStakeId;
+        uint128 claimStats;
+    }
+
+    GlobalsStore public globals;
+
+    /* Claimed BTC addresses */
+    mapping(bytes20 => bool) public btcAddressClaims;
+
+    /* Daily data */
+    struct DailyDataStore {
+        uint72 dayPayoutTotal;
+        uint72 dayStakeSharesTotal;
+        uint56 dayUnclaimedSatoshisTotal;
+    }
+
+    mapping(uint256 => DailyDataStore) public dailyData;
+
+    /* Stake expanded for memory (except _stakeId) and compact for storage */
+    struct StakeCache {
+        uint40 _stakeId;
+        uint256 _stakedHearts;
+        uint256 _stakeShares;
+        uint256 _lockedDay;
+        uint256 _stakedDays;
+        uint256 _unlockedDay;
+        bool _isAutoStake;
+    }
+
+    struct StakeStore {
+        uint40 stakeId;
+        uint72 stakedHearts;
+        uint72 stakeShares;
+        uint16 lockedDay;
+        uint16 stakedDays;
+        uint16 unlockedDay;
+        bool isAutoStake;
+    }
+
+    mapping(address => StakeStore[]) public stakeLists;
+
+    /* Temporary state for calculating daily rounds */
+    struct DailyRoundState {
+        uint256 _allocSupplyCached;
+        uint256 _mintOriginBatch;
+        uint256 _payoutTotal;
+    }
+
+    struct XfLobbyEntryStore {
+        uint96 rawAmount;
+        address referrerAddr;
+    }
+
+    struct XfLobbyQueueStore {
+        uint40 headIndex;
+        uint40 tailIndex;
+        mapping(uint256 => XfLobbyEntryStore) entries;
+    }
+
+    mapping(uint256 => uint256) public xfLobby;
+    mapping(uint256 => mapping(address => XfLobbyQueueStore)) public xfLobbyMembers;
 }
 
 /**
