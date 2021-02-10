@@ -211,6 +211,7 @@ contract HexSimpleStaking is ISimpleStaking {
   /**
    * @dev checks for the last stake
    * @param addr which address to check for
+   * @return day that the tokens were locked
    */
   function lastStakedFor(address addr) external view returns (uint256) {
     StakeStore[] memory lists = HEXData(targetContract).stakeLists[addr];
@@ -236,26 +237,35 @@ contract HexSimpleStaking is ISimpleStaking {
     return lists[lists.length - 1].lockedDay;
   }
 
-  function totalStakedForAt(address addr, uint256 _targetDay) external view returns (uint256) {
-    uint16 targetDay = uint16(_targetDay);
+  /**
+   * @dev checks the total staked tokens
+   * @param addr which address to check for
+   * @param targetDay that is being checked for
+   * @return total token locked
+   */
+  function totalStakedForAt(address addr, uint256 targetDay) external view returns (uint256) {
+    uint16 target = uint16(targetDay);
     StakeStore[] memory lists = HEXData(targetContract).stakeLists[addr];
     uint256 total = 0;
     for (uint256 i = 0; i < lists.length; i += 1) {
       StakeStore memory store = lists[i];
-      if (store.lockedDay <= targetDay && targetDay < store.unlockedDay) {
+      if (store.lockedDay <= target && target < store.unlockedDay) {
         total = total.add(store.stakedHearts);
       }
     }
     Stake[] memory userStakes = stakes[addr];
     for (i = 0; i < userStakes.length; i += 1) {
       Stake memory userStake = userStakes[i];
-      if (userStake.lockedDay <= targetDay && targetDay < userStake.unlockedDay) {
+      if (userStake.lockedDay <= target && target < userStake.unlockedDay) {
         total = total.add(userStake.amount);
       }
     }
     return total;
   }
 
+  /**
+   * @dev function always fails
+   */
   function totalStakedAt(uint256 blockNumber) external view returns (uint256) {
     require(false, "HexSimpleStaking: TOTAL_STAKED_AT_NOT_SUPPORTED");
   }
