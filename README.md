@@ -46,7 +46,7 @@ fromHeart(200000000, 'millihex') // 2000<BN>
 ### `toHeart`
 convert from any other unit to `heart`, default source `hex`
 ```js
-fromHeart(2)                // 200000000<BN>
-fromHeart(2, 'hex')         // 200000000<BN>
-fromHeart(2000, 'millihex') // 200000000<BN>
+toHeart(2)                // 200000000<BN>
+toHeart(2, 'hex')         // 200000000<BN>
+toHeart(2000, 'millihex') // 200000000<BN>
 ```
