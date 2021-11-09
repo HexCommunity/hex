@@ -1,14 +1,14 @@
 /**
  * SPDX-License-Identifier: NO LICENSE
  */
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.9;
 
 contract HEXData {
     /* Origin address */
     address public constant ORIGIN_ADDR = 0x9A6a414D6F3497c05E3b1De90520765fA1E07c03;
 
     /* Flush address */
-    address payable public constant FLUSH_ADDR = 0xDEC9f2793e3c17cd26eeFb21C4762fA5128E0399;
+    address payable public constant FLUSH_ADDR = payable(0xDEC9f2793e3c17cd26eeFb21C4762fA5128E0399);
 
     /* ERC20 constants */
     string public constant name = "HEX";
