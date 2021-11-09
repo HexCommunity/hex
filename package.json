@@ -1,6 +1,6 @@
 {
   "name": "@hexcommunity/hex",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a repo for all things hex solidity / truffle development",
   "main": "truffle-config.js",
   "directories": {
